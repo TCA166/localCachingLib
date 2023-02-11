@@ -23,8 +23,8 @@ A library for storing variables in local binary files as opposed to RAM.
 3. Read something from the cache
     Reading things from the cache is also rather easy.
     ```C
-    printf("%d", arr1[1]) //prints 2
-    printf("%d", (int)(readFromCache(&intArr, 1, 1))) //prints 2
+    printf("%d", arr1[1]); //prints 2
+    printf("%d", (int)(readFromCache(&intArr, 1, 1))); //prints 2
     ```
 4. Delete the cache
     When your program stops execution the struct will be of course automaticly lost. Hovewer the file will remain. So the same way it's good practice to free everything at the end of the program, it's also good practice to freeCache each cache you have created
