@@ -1,0 +1,1 @@
+gcc -c localCachingLib.c -o localCachingLib.o
