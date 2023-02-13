@@ -29,3 +29,42 @@ A library for storing variables in local binary files as opposed to RAM.
 4. Delete the cache
     When your program stops execution the struct will be of course automaticly lost. Hovewer the file will remain. So the same way it's good practice to free everything at the end of the program, it's also good practice to freeCache each cache you have created
 
+
+## Typeless vs Normal caches
+
+This library has two very similar structs and associated functions. Normal caches and typeless caches. 
+So far the examples have only shown how to use the normal caches. That is because typeless caches are less reliable and there is a lot more that can go wrong.
+Normal caches are essentially files with a memory representation of an array. Since each element has a given size reading them is easy and painless.
+Typeless caches hovewer while allowing for variable element size, are forced to seperate each element with a delimiter, making reading them a lot more problematic and prone to errors.
+The delmiter is by default a string "\0\10" and since it's a string there's a third hidden null character. This is a rather distinct combination that shouldn't overlap with most data.
+
+### Redefining the delimiter
+
+In order to redefine the delimiter you have to redefine the following macros that are in the localCachingLib.h
+
+```C
+    #define typelessDelimiter "\0\10"
+    #define delimiterSize 3 * sizeof(char)
+    #define delimiterLen 3
+    #define isDelimit(a) (a[0] == typelessDelimiter[0] && a[1] == typelessDelimiter[1] && a[2] == typelessDelimiter[2])
+```
+
+## How to use typeless Caches
+
+They function very similarly to normal caches, except you can't write multiple elements at a time to limit the amount of things that can go wrong.  
+Here's an example use case:
+
+```C
+    struct typelessCache typeless = createTypelessCache("typeless.bin");
+
+    writeTypeless(&typeless, arr1, sizeof(int));
+
+    int* res = (int*)readTypeless(&typeless, 0);
+
+    printf("\n%d", *res);
+
+    free(res);
+
+    wipeTypeless(&typeless);
+    freeTypeless(&typeless);
+```

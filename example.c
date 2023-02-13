@@ -22,5 +22,18 @@ int main(){
     wipeCache(&intArr);
     freeCache(&intArr);
 
+    struct typelessCache typeless = createTypelessCache("typeless.bin");
+
+    writeTypeless(&typeless, arr1, sizeof(int));
+
+    int* res = (int*)readTypeless(&typeless, 0);
+
+    printf("\n%d", *res);
+
+    free(res);
+
+    wipeTypeless(&typeless);
+    freeTypeless(&typeless);
+
     return 0;
 }

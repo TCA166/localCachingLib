@@ -1,5 +1,8 @@
 #ifndef _localCachingLib_H_
 #define _localCachingLib_H_
+
+    //Type based cache
+
     //A cache object that stores the associated filename, the size of one element in cache and the amount of elements in cache
     struct cache{
         char* filename; //Associated filename
@@ -25,4 +28,31 @@
     //Reads all data in cache
     extern void* readAllFromCache(struct cache* cache);
 
+    //Typeless cache
+
+    #define typelessDelimiter "\0\10"
+    #define delimiterSize 3 * sizeof(char)
+    #define delimiterLen 3
+    #define isDelimit(a) (a[0] == typelessDelimiter[0] && a[1] == typelessDelimiter[1] && a[2] == typelessDelimiter[2])
+
+    //A cache without a predetermined size of one element. Due to the nature of how data is stored it's best to use the normal cache when possible.
+    struct typelessCache{
+        char* filename;
+        int len;
+    };
+
+    //Returns a ready to use typeless cache
+    extern struct typelessCache createTypelessCache(char* filename);
+
+    //Writes the given one element from val to cache
+    int writeTypeless(struct typelessCache* cache, void* val, size_t size);
+
+    //Reads a single element from the typeless cache at offset with offset being the number of elements in cache preceding the one we want read
+    extern void* readTypeless(struct typelessCache* cache, int offset);
+
+    //Removes all data in typeless cache
+    int wipeTypeless(struct typelessCache* cache);
+
+    //Deletes the typeless cache
+    int freeTypeless(struct typelessCache* cache);
 #endif
