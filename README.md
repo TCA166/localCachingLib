@@ -43,10 +43,10 @@ The delmiter is by default a string "\0\10" and since it's a string there's a th
 In order to redefine the delimiter you have to redefine the following macros that are in the localCachingLib.h
 
 ```C
-    #define typelessDelimiter "\0\10"
-    #define delimiterSize 3 * sizeof(char)
-    #define delimiterLen 3
-    #define isDelimit(a) (a[0] == typelessDelimiter[0] && a[1] == typelessDelimiter[1] && a[2] == typelessDelimiter[2])
+#define typelessDelimiter "\0\10"
+#define delimiterSize 3 * sizeof(char)
+#define delimiterLen 3
+#define isDelimit(a) (a[0] == typelessDelimiter[0] && a[1] == typelessDelimiter[1] && a[2] == typelessDelimiter[2])
 ```
 
 ## How to use typeless Caches
@@ -55,16 +55,16 @@ They function very similarly to normal caches, except you can't write multiple e
 Here's an example use case:
 
 ```C
-    struct typelessCache typeless = createTypelessCache("typeless.bin");
+struct typelessCache typeless = createTypelessCache("typeless.bin");
 
-    writeTypeless(&typeless, arr1, sizeof(int));
+writeTypeless(&typeless, arr1, sizeof(int));
 
-    int* res = (int*)readTypeless(&typeless, 0);
+int* res = (int*)readTypeless(&typeless, 0);
 
-    printf("\n%d", *res);
+printf("\n%d", *res);
 
-    free(res);
+free(res);
 
-    wipeTypeless(&typeless);
-    freeTypeless(&typeless);
+wipeTypeless(&typeless);
+freeTypeless(&typeless);
 ```
