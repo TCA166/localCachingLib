@@ -30,9 +30,11 @@
 
     //Typeless cache
 
-    #define typelessDelimiter "\0\10"
+    //the actual value of the delimiter
+    #define typelessDelimiter "\0;"
+    //size in bytes of the delimiter
     #define delimiterSize 3 * sizeof(char)
-    #define delimiterLen 3
+    //A macro for checking if the provided pointer points to a delimiter 
     #define isDelimit(a) (a[0] == typelessDelimiter[0] && a[1] == typelessDelimiter[1] && a[2] == typelessDelimiter[2])
 
     //A cache without a predetermined size of one element. Due to the nature of how data is stored it's best to use the normal cache when possible.

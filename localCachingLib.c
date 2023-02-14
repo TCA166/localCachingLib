@@ -83,7 +83,7 @@ int writeTypeless(struct typelessCache* cache, void* val, size_t size){
     FILE* cacheP = fopen(cache->filename, "ab");
     if(cacheP != NULL){
         fwrite(val, size, 1, cacheP); //write the actual value
-        fwrite(typelessDelimiter, delimiterSize, delimiterLen, cacheP);
+        fwrite(typelessDelimiter, delimiterSize, 1, cacheP);
         fclose(cacheP);
         cache->len += 1;
         return 0;
@@ -113,17 +113,21 @@ void* readTypeless(struct typelessCache* cache, int offset){
                 return NULL;
             }
             if(isDelimit((contents + n))){
+                n += delimiterSize;
                 offset--;
             }
-            n++;
+            else{
+                n++;
+            }
         }
-        char* results = malloc(0); //initiate the pointer for reallo
-        int i = n;
-        while(!isDelimit((contents + i))){
+        char* results = malloc(0); //initiate the pointer for realloc
+        int i = 0;
+        while(!isDelimit((contents + n))){
             results = realloc(results, i + 1);
-            results[i] = contents[i];
+            results[i] = contents[n];
             //fprintf(stderr, "%d", contents[i]);
             i++;
+            n++;
         }
         free(contents);
         return (void*)results;

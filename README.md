@@ -43,9 +43,11 @@ The delmiter is by default a string "\0\10" and since it's a string there's a th
 In order to redefine the delimiter you have to redefine the following macros that are in the localCachingLib.h
 
 ```C
-#define typelessDelimiter "\0\10"
+//the actual value of the delimiter
+#define typelessDelimiter "\0;"
+//size in bytes of the delimiter
 #define delimiterSize 3 * sizeof(char)
-#define delimiterLen 3
+//A macro for checking if the provided pointer points to a delimiter 
 #define isDelimit(a) (a[0] == typelessDelimiter[0] && a[1] == typelessDelimiter[1] && a[2] == typelessDelimiter[2])
 ```
 
@@ -61,7 +63,7 @@ writeTypeless(&typeless, arr1, sizeof(int));
 
 int* res = (int*)readTypeless(&typeless, 0);
 
-printf("\n%d", *res);
+printf("\n%d", (int)*res);
 
 free(res);
 
